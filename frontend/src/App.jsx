@@ -1,9 +1,27 @@
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./screens/HomePage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-
   return (
-    <h1>hello</h1>
-  )
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;
