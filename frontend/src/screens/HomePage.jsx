@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "../axios";
-import Todo from "../components/Todo";
 import { toast } from "react-toastify";
+import {
+  useCreateTodoMutation,
+  useDeleteTodoMutation,
+  useGetTodosQuery,
+} from "../slices/todoApiSlice";
 
 function HomePage() {
-  const [todos, setTodos] = useState([]);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const getTodos = async () => {
-    try {
-      const res = await axios.get();
-      setTodos(res.data);
-    } catch (error) {
-      toast.error(error?.message || error?.data?.message);
-    }
-  };
+  const [todoCreate] = useCreateTodoMutation();
+  const [todoDelete] = useDeleteTodoMutation();
+
+  const { data: todos , refetch} = useGetTodosQuery();
 
   const createTodo = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.post("/create", { title, description });
+      let res = await todoCreate({ title, description }).unwrap();
       setTitle("");
       setDescription("");
+      refetch();
       toast.success("Todo Added");
-      getTodos();
     } catch (error) {
       console.log(error);
       toast.error(error?.message || error?.data?.message);
@@ -34,17 +31,13 @@ function HomePage() {
 
   const deleteTodo = async (id) => {
     try {
-      let res = await axios.delete(`/delete/${id}`);
-      getTodos();
+      let res = await todoDelete(id).unwrap();
+      refetch();
       toast.success("Todo Deleted");
     } catch (error) {
       toast.error(error?.message || error?.data?.message);
     }
   };
-
-  useEffect(() => {
-    getTodos();
-  }, []);
 
   return (
     <div>
