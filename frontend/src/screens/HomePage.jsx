@@ -5,6 +5,7 @@ import {
   useDeleteTodoMutation,
   useGetTodosQuery,
 } from "../slices/todoApiSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [title, setTitle] = useState("");
@@ -13,7 +14,9 @@ function HomePage() {
   const [todoCreate] = useCreateTodoMutation();
   const [todoDelete] = useDeleteTodoMutation();
 
-  const { data: todos , refetch} = useGetTodosQuery();
+  const { data: todos, refetch } = useGetTodosQuery();
+
+  const navigate = useNavigate();
 
   const createTodo = async (e) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ function HomePage() {
             <h3>{todo.title}</h3>
             <p>{todo?.description}</p>
             <button onClick={() => deleteTodo(todo._id)}>delete</button>
-            <button>edit</button>
+            <button onClick={() => navigate(`/edit/${todo._id}`)}>edit</button>
           </div>
         </>
       ))}

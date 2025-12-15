@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./screens/HomePage";
 import { ToastContainer } from "react-toastify";
+import EditTodoPage from "./screens/EditTodoPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/edit/:id" element={<EditTodoPage/>}/>
       </Routes>
     </>
   );
