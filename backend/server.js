@@ -3,6 +3,7 @@ import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 import cors from 'cors'
 import todoRoute from "./routes/todoRoutes.js";
+import userRoute from "./routes/userRoutes.js";
 
 dotenv.config();   
 
@@ -21,6 +22,9 @@ app.use(cors())
 
 // http://localhost:4000/api/todo
 app.use('/api/todo' , todoRoute) // todo related request must start with /api/todo
+
+// http://localhost:4000/api/user
+app.use('/api/user',userRoute)
 
 
 app.listen(port, () => console.log("server started"));
