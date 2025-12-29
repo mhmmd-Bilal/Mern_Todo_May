@@ -10,8 +10,9 @@ const todoApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getTodos: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: "/api/todo",
+        params
       }),
     }),
     deleteTodo: builder.mutation({

@@ -4,18 +4,19 @@ const addTodo = async (req, res) => {
   //   let title = req.body.title
   //   let description = req.body.description
 
-  let { title, description } = req.body;
+  let { title, description , userId } = req.body;
 
   let todo = await Todos.create({
     title,
     description,
+    userId
   });
 
   res.send(todo);
 };
 
 const getTodos = async (req, res) => {
-  let todos = await Todos.find();
+  let todos = await Todos.find({userId : req.query.userId});
 
   res.send(todos);
 };

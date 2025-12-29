@@ -1,0 +1,171 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Page */
+.home-container {
+  min-height: 100vh;
+  background: #f4f6f9;
+  padding: 40px 20px;
+}
+
+/* Header */
+.home-header {
+  max-width: 1100px;
+  margin: 0 auto 30px;
+}
+
+.home-header h1 {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Layout */
+.todo-layout {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+/* Todo List */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Todo Card */
+.todo-card {
+  background: #fff;
+  padding: 18px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.todo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.todo-card h3 {
+  font-size: 18px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.todo-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* Actions */
+.todo-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.todo-actions button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.todo-actions .edit {
+  background: #667eea;
+  color: white;
+}
+
+.todo-actions .edit:hover {
+  background: #5a67d8;
+}
+
+.todo-actions .delete {
+  background: #e53e3e;
+  color: white;
+}
+
+.todo-actions .delete:hover {
+  background: #c53030;
+}
+
+/* Add Todo */
+.todo-form {
+  background: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+}
+
+.todo-form h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.todo-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.todo-form input,
+.todo-form textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  resize: none;
+}
+
+.todo-form input:focus,
+.todo-form textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.todo-form button {
+  margin-top: 6px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.todo-form button:hover {
+  background: #5a67d8;
+}
+
+/* Empty state */
+.empty {
+  background: #fff;
+  padding: 30px;
+  text-align: center;
+  border-radius: 12px;
+  color: #777;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .todo-layout {
+    grid-template-columns: 1fr;
+  }
+}

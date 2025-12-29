@@ -1,0 +1,116 @@
+/* Page wrapper */
+.edit-container {
+  min-height: 100vh;
+  background: #f4f6f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Card */
+.edit-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px 28px;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.edit-card h3 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 22px;
+  color: #333;
+}
+
+/* Form */
+.edit-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs & textarea */
+.edit-card input,
+.edit-card textarea,
+.edit-card select {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background: #fff;
+}
+
+.edit-card textarea {
+  resize: none;
+}
+
+/* Focus */
+.edit-card input:focus,
+.edit-card textarea:focus,
+.edit-card select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* Status row */
+.status-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.status-row label {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Buttons */
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.edit-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Save */
+.save-btn {
+  background: #667eea;
+  color: #fff;
+}
+
+.save-btn:hover {
+  background: #5a67d8;
+}
+
+/* Cancel */
+.cancel-btn {
+  background: #e2e8f0;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #cbd5e0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .edit-card {
+    padding: 24px 20px;
+  }
+}

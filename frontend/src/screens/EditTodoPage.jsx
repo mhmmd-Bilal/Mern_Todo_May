@@ -5,6 +5,7 @@ import {
   useUpdateTodoMutation,
 } from "../slices/todoApiSlice";
 import { toast } from "react-toastify";
+import './EditTodoPage.css'
 
 function EditTodoPage() {
   const [title, setTitle] = useState("");
@@ -45,34 +46,53 @@ function EditTodoPage() {
   }, [todo]);
 
   return (
-    <div>
-      <h3>Edit Page</h3>
-      <form onSubmit={editHandler}>
-        <input
-          type="text"
-          placeholder="enter title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+ <div className="edit-container">
+      <div className="edit-card">
+        <h3>Edit Todo</h3>
 
-        <textarea
-          placeholder="enter description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
+        <form onSubmit={editHandler}>
+          <input
+            type="text"
+            placeholder="Enter title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
 
-        <select
-          value={isCompleted.toString()}
-          onChange={(e) => setIsCompleted(e.target.value === "true")}
-        >
-          <option value="false">Pending</option>
-          <option value="true">Completed</option>
-        </select>
+          <textarea
+            placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows="4"
+          />
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+          <div className="status-row">
+            <label>Status</label>
+            <select
+              value={isCompleted.toString()}
+              onChange={(e) => setIsCompleted(e.target.value === "true")}
+            >
+              <option value="false">Pending</option>
+              <option value="true">Completed</option>
+            </select>
+          </div>
+
+          <div className="edit-actions">
+            <button type="submit" className="save-btn">
+              Save Changes
+            </button>
+
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate("/")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>  );
 }
 
 export default EditTodoPage;
