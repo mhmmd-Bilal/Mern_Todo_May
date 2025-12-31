@@ -6,23 +6,30 @@ import {
   useGetTodosQuery,
 } from "../slices/todoApiSlice";
 import { Link, useNavigate } from "react-router-dom";
-import './HomePage.css'
+import "./HomePage.css";
+import { useSelector } from "react-redux";
 
 function HomePage() {
+  const { userData } = useSelector((state) => state.auth);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [todoCreate] = useCreateTodoMutation();
   const [todoDelete] = useDeleteTodoMutation();
 
-  const { data: todos, refetch } = useGetTodosQuery({userId : '69528e5848d89df0b235a976'});
+  const { data: todos, refetch } = useGetTodosQuery({ userId: userData?._id });
 
   const navigate = useNavigate();
 
   const createTodo = async (e) => {
     e.preventDefault();
     try {
-      let res = await todoCreate({ title, description,userId : '69528e5848d89df0b235a976' }).unwrap();
+      let res = await todoCreate({
+        title,
+        description,
+        userId: userData?._id,
+      }).unwrap();
       setTitle("");
       setDescription("");
       refetch();
@@ -43,8 +50,14 @@ function HomePage() {
     }
   };
 
+  useEffect(() => {
+    if (!userData) {
+      navigate("/login");
+    }
+  }, [userData]);
+
   return (
- <div className="home-container">
+    <div className="home-container">
       <div className="home-header">
         <h1>Welcome 👋</h1>
       </div>
@@ -69,10 +82,7 @@ function HomePage() {
                   Edit
                 </button>
 
-                <button
-                  className="delete"
-                  onClick={() => deleteTodo(todo._id)}
-                >
+                <button className="delete" onClick={() => deleteTodo(todo._id)}>
                   Delete
                 </button>
               </div>
@@ -104,7 +114,8 @@ function HomePage() {
           </form>
         </div>
       </div>
-    </div>  );
+    </div>
+  );
 }
 
 export default HomePage;

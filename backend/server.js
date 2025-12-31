@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from 'cors'
 import todoRoute from "./routes/todoRoutes.js";
 import userRoute from "./routes/userRoutes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();   
 
@@ -15,6 +16,7 @@ let port = process.env.PORT;
 
 // app.httpMethod(url,handler)
 
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

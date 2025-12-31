@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../slices/userApiSlice";
 import "./LoginPage.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentails } from "../slices/authSlice";
 
 function LoginPage() {
+
+  const {userData} = useSelector((state) => state.auth)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,16 +17,25 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       let data = await loginUser({ email, password }).unwrap();
+      await dispatch(setCredentails({ ...data }));
       toast.success("Login Success");
       navigate("/");
     } catch (error) {
       toast.error(error?.data?.message || error?.message);
     }
   };
+
+  useEffect(()=>{
+    if(userData){
+      navigate('/')
+    }
+  },[userData])
 
   return (
     <div>
