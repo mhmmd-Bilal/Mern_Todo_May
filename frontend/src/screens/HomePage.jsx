@@ -7,7 +7,9 @@ import {
 } from "../slices/todoApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../slices/authSlice";
+import { useUserLogoutMutation } from "../slices/userApiSlice";
 
 function HomePage() {
   const { userData } = useSelector((state) => state.auth);
@@ -19,8 +21,10 @@ function HomePage() {
   const [todoDelete] = useDeleteTodoMutation();
 
   const { data: todos, refetch } = useGetTodosQuery({ userId: userData?._id });
+  const [userLogout] = useUserLogoutMutation();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const createTodo = async (e) => {
     e.preventDefault();
@@ -56,6 +60,17 @@ function HomePage() {
     }
   }, [userData]);
 
+  const logoutHandler = async () => {
+    try {
+      await userLogout().unwrap();
+      await dispatch(logout());
+      toast.success("logout success");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error?.message || error?.data?.message);
+    }
+  };
+
   return (
     <div className="home-container">
       <div className="home-header">
@@ -70,8 +85,10 @@ function HomePage() {
           )}
 
           {todos?.map((todo) => (
-            <div className="todo-card" key={todo._id}>
-              <h3>{todo.title}</h3>
+            <div className={`todo-card `} key={todo._id}>
+              <h3 className={todo?.isCompleted ? "completedTodo" : ""}>
+                {todo.title}
+              </h3>
               <p>{todo.description}</p>
 
               <div className="todo-actions">
@@ -112,6 +129,9 @@ function HomePage() {
 
             <button type="submit">Add Todo</button>
           </form>
+          <button type="button" onClick={() => logoutHandler()}>
+            Logout
+          </button>
         </div>
       </div>
     </div>

@@ -6,12 +6,12 @@ import bcrypt from "bcrypt";
 
 // Import jsonwebtoken for creating JWT tokens
 import jwt from "jsonwebtoken";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
 /* ================================
    REGISTER USER CONTROLLER
    ================================ */
-const registerUser = async (req, res) => {
-
+const registerUser = asyncHandler(async (req, res) => {
   // Destructure name, email, and password from request body
   // Data comes from frontend registration form
   let { name, email, password } = req.body;
@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
   // If user already exists, stop registration
   if (userExists) {
     return res.status(400).json({
-      message: "user already exists"
+      message: "user already exists",
     });
   }
 
@@ -48,16 +48,15 @@ const registerUser = async (req, res) => {
   } else {
     // If user creation fails
     return res.status(400).json({
-      message: "invalid user data"
+      message: "invalid user data",
     });
   }
-};
+});
 
 /* ================================
    LOGIN USER CONTROLLER
    ================================ */
-const loginUser = async (req, res) => {
-
+const loginUser = asyncHandler(async (req, res) => {
   // Get email and password from request body
   let { email, password } = req.body;
 
@@ -67,17 +66,12 @@ const loginUser = async (req, res) => {
   // Check if user exists AND password matches
   // matchPassword is usually a method defined in user schema
   if (user && (await user.matchPassword(password))) {
-
     // Create JWT token
     // Payload contains userId
     // Token expires in 30 days
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
 
     // Store token in HTTP-only cookie
     // httpOnly: prevents JS access (security)
@@ -90,21 +84,23 @@ const loginUser = async (req, res) => {
     });
 
     // Send user data as response (without password)
-    res.json(user);
-
+    res.json({
+      name: user?.name,
+      email: user?.email,
+      _id: user?._id,
+    });
   } else {
     // If email or password is incorrect
     res.status(404).json({
-      message: "no accounts matched"
+      message: "no accounts matched",
     });
   }
-};
+});
 
 /* ================================
    LOGOUT USER CONTROLLER
    ================================ */
-const logoutUser = async (req, res) => {
-
+const logoutUser = asyncHandler(async (req, res) => {
   // Clear the JWT cookie
   // Setting maxAge to 0 removes the cookie immediately
   res.cookie("jwt", "", {
@@ -114,9 +110,9 @@ const logoutUser = async (req, res) => {
 
   // Send success response
   res.json({
-    message: "User logged out successfully"
+    message: "User logged out successfully",
   });
-};
+});
 
 // Export controllers so they can be used in routes
 export { registerUser, loginUser, logoutUser };

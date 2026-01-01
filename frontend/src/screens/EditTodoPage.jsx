@@ -3,11 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   useGetTodoByIdQuery,
   useUpdateTodoMutation,
+  useGetTodosQuery,
 } from "../slices/todoApiSlice";
 import { toast } from "react-toastify";
-import './EditTodoPage.css'
+import "./EditTodoPage.css";
+import { useSelector } from "react-redux";
 
 function EditTodoPage() {
+  const { userData } = useSelector((state) => state.auth);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
@@ -17,6 +21,9 @@ function EditTodoPage() {
   const navigate = useNavigate();
 
   let { data: todo, refetch } = useGetTodoByIdQuery({ id });
+  const { data, refetch: fetchAllTodo } = useGetTodosQuery({
+    userId: userData?._id,
+  });
   const [updateTodo] = useUpdateTodoMutation();
 
   const editHandler = async (e) => {
@@ -25,6 +32,7 @@ function EditTodoPage() {
       await updateTodo({ title, description, isCompleted, id }).unwrap();
 
       refetch();
+      fetchAllTodo()
 
       toast.success("edited");
       setTitle("");
@@ -46,7 +54,7 @@ function EditTodoPage() {
   }, [todo]);
 
   return (
- <div className="edit-container">
+    <div className="edit-container">
       <div className="edit-card">
         <h3>Edit Todo</h3>
 
@@ -92,7 +100,8 @@ function EditTodoPage() {
           </div>
         </form>
       </div>
-    </div>  );
+    </div>
+  );
 }
 
 export default EditTodoPage;

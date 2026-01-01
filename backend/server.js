@@ -5,6 +5,7 @@ import cors from 'cors'
 import todoRoute from "./routes/todoRoutes.js";
 import userRoute from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import {notFound,errorHandler} from './middlewares/errorMiddlewares.js'
 
 dotenv.config();   
 
@@ -27,6 +28,10 @@ app.use('/api/todo' , todoRoute) // todo related request must start with /api/to
 
 // http://localhost:4000/api/user
 app.use('/api/user',userRoute)
+
+
+app.use(notFound)
+app.use(errorHandler)
 
 
 app.listen(port, () => console.log("server started"));

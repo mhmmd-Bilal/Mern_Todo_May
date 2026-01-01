@@ -1,11 +1,11 @@
 // Import Todo model to interact with todos collection in MongoDB
 import Todos from "../Model/todoModel.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
 /* ================================
    ADD TODO CONTROLLER
    ================================ */
-const addTodo = async (req, res) => {
-
+const addTodo = asyncHandler(async (req, res) => {
   // Earlier way of reading data from request body
   // let title = req.body.title
   // let description = req.body.description
@@ -23,13 +23,12 @@ const addTodo = async (req, res) => {
 
   // Send created todo as response
   res.send(todo);
-};
+});
 
 /* ================================
    GET ALL TODOS (USER-WISE)
    ================================ */
-const getTodos = async (req, res) => {
-
+const getTodos = asyncHandler(async (req, res) => {
   // Read userId from query parameters
   // Example request: /api/todos?userId=123
   let todos = await Todos.find({
@@ -38,65 +37,52 @@ const getTodos = async (req, res) => {
 
   // Send list of todos for that user
   res.send(todos);
-};
+});
 
 /* ================================
    DELETE TODO BY ID
    ================================ */
-const deleteTodo = async (req, res) => {
-  try {
-    // Get todo id from URL params
-    // Example route: /api/todos/:id
-    const deleted = await Todos.findByIdAndDelete(req.params.id);
+const deleteTodo = asyncHandler(async (req, res) => {
+  // Get todo id from URL params
+  // Example route: /api/todos/:id
+  const deleted = await Todos.findByIdAndDelete(req.params.id);
 
-    // If todo not found
-    if (!deleted) {
-      return res.status(404).json({
-        message: "Todo Not Found",
-      });
-    }
-
-    // If deletion successful
-    res.json({
-      message: "Todo deleted successfully",
+  // If todo not found
+  if (!deleted) {
+    return res.status(404).json({
+      message: "Todo Not Found",
     });
-
-  } catch (error) {
-    // Handle server or database errors
-    res.status(500).json(error);
   }
-};
+
+  // If deletion successful
+  res.json({
+    message: "Todo deleted successfully",
+  });
+});
 
 /* ================================
    GET SINGLE TODO BY ID
    ================================ */
-const getTodoById = async (req, res) => {
-  try {
-    // Get todo id from query parameters
-    // Example request: /api/todo?id=123
-    const todo = await Todos.findById(req.query.id);
+const getTodoById = asyncHandler(async (req, res) => {
+  // Get todo id from query parameters
+  // Example request: /api/todo?id=123
+  const todo = await Todos.findById(req.query.id);
 
-    // If todo does not exist
-    if (!todo) {
-      return res.status(404).json({
-        message: "Todo Not Found",
-      });
-    }
-
-    // Send todo data
-    res.json(todo);
-
-  } catch (error) {
-    // Handle invalid ID or server errors
-    res.status(500).json(error);
+  // If todo does not exist
+  if (!todo) {
+    return res.status(404).json({
+      message: "Todo Not Found",
+    });
   }
-};
+
+  // Send todo data
+  res.json(todo);
+});
 
 /* ================================
    UPDATE TODO
    ================================ */
-const updateTodo = async (req, res) => {
-
+const updateTodo = asyncHandler(async (req, res) => {
   // Destructure updated fields from request body
   // id is required to know which todo to update
   const { title, description, isCompleted, id } = req.body;
@@ -118,7 +104,7 @@ const updateTodo = async (req, res) => {
 
   // Send updated todo as response
   return res.json(updatedTodo);
-};
+});
 
 // Export all controllers to use in routes
 export { addTodo, getTodos, deleteTodo, getTodoById, updateTodo };
